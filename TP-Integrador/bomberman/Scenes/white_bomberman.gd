@@ -3,12 +3,17 @@ extends Area2D
 class_name white_bomberman
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var rayCasts = $RayCasts
 
 var movement: Vector2 = Vector2.ZERO
 
 @export var movement_speed: float = 75
 
 func _process(delta: float) -> void:
+	
+	var collisions = rayCasts.check_collisions()
+	if collisions.has(movement):
+		return
 	
 	position += movement * delta * movement_speed
 
