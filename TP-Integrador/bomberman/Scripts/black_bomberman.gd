@@ -5,6 +5,7 @@ class_name BlackBomberman
 const MACRO_SPEED = 75
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var rayCasts = $RayCasts
+@onready var bomb_placed_system : BombPlacementSystem = $BombPlacementSystem
 
 var movement: Vector2 = Vector2.ZERO
 
@@ -34,6 +35,9 @@ func _input(event: InputEvent) -> void:
 	else:
 		movement = Vector2.ZERO
 		animated_sprite_2d.stop()
+		
+		
+
 	
 	
 	
