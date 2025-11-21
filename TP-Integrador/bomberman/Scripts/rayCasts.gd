@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name RayCastas
+class_name RayCasts
 
 @onready var right_horizontal_raycasts: Array[RayCast2D] = [
 	$Horizontal/Right/RightHorizontalBottom,

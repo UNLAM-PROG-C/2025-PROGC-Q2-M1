@@ -1,8 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://cx67q1vswurvu"]
+[gd_scene load_steps=26 format=3 uid="uid://cx67q1vswurvu"]
 
 [ext_resource type="Texture2D" uid="uid://bv3od7dxw6lut" path="res://Assets/Sprites.png" id="1_japfm"]
-[ext_resource type="Script" uid="uid://drmw1wna1325y" path="res://Scenes/white_bomberman.gd" id="1_ur3nh"]
+[ext_resource type="Script" uid="uid://drmw1wna1325y" path="res://Scripts/white_bomberman.gd" id="1_ur3nh"]
 [ext_resource type="Script" uid="uid://8lqkxflvnbak" path="res://Scripts/rayCasts.gd" id="3_mtyeh"]
+[ext_resource type="Script" uid="uid://dc7r0kp4fk6md" path="res://Scripts/bomb_placemente_system.gd" id="4_r0t31"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
 atlas = ExtResource("1_japfm")
@@ -182,6 +183,7 @@ shape = SubResource("CapsuleShape2D_wpjfl")
 
 [node name="RayCasts" type="Node2D" parent="."]
 script = ExtResource("3_mtyeh")
+metadata/_custom_type_script = "uid://8lqkxflvnbak"
 
 [node name="Horizontal" type="Node2D" parent="RayCasts"]
 
@@ -190,24 +192,28 @@ script = ExtResource("3_mtyeh")
 [node name="LeftHorizontalBottom" type="RayCast2D" parent="RayCasts/Horizontal/Left"]
 position = Vector2(-2, 6)
 target_position = Vector2(-2, 0)
-collision_mask = 14
+collision_mask = 15
+collide_with_areas = true
 
 [node name="LeftHorizontalTop" type="RayCast2D" parent="RayCasts/Horizontal/Left"]
 position = Vector2(-2, -6)
 target_position = Vector2(-2, 0)
-collision_mask = 14
+collision_mask = 15
+collide_with_areas = true
 
 [node name="Right" type="Node2D" parent="RayCasts/Horizontal"]
 
 [node name="RightHorizontalBottom" type="RayCast2D" parent="RayCasts/Horizontal/Right"]
 position = Vector2(2, 6)
 target_position = Vector2(2, 0)
-collision_mask = 14
+collision_mask = 15
+collide_with_areas = true
 
 [node name="RightHorizontalTop" type="RayCast2D" parent="RayCasts/Horizontal/Right"]
 position = Vector2(2, -6)
 target_position = Vector2(2, 0)
-collision_mask = 14
+collision_mask = 15
+collide_with_areas = true
 
 [node name="Vertical" type="Node2D" parent="RayCasts"]
 
@@ -216,21 +222,29 @@ collision_mask = 14
 [node name="TopVerticalRight" type="RayCast2D" parent="RayCasts/Vertical/Top"]
 position = Vector2(3, -6)
 target_position = Vector2(0, -2)
-collision_mask = 14
+collision_mask = 15
+collide_with_areas = true
 
 [node name="TopVerticalLeft" type="RayCast2D" parent="RayCasts/Vertical/Top"]
 position = Vector2(-3, -6)
 target_position = Vector2(0, -2)
-collision_mask = 14
+collision_mask = 15
+collide_with_areas = true
 
 [node name="Bottom" type="Node2D" parent="RayCasts/Vertical"]
 
 [node name="BottomVerticalRight" type="RayCast2D" parent="RayCasts/Vertical/Bottom"]
 position = Vector2(2, 6)
 target_position = Vector2(0, 2)
-collision_mask = 14
+collision_mask = 15
+collide_with_areas = true
 
 [node name="BottomVerticalLeft" type="RayCast2D" parent="RayCasts/Vertical/Bottom"]
 position = Vector2(-2, 6)
 target_position = Vector2(0, 2)
-collision_mask = 14
+collision_mask = 15
+collide_with_areas = true
+
+[node name="BombPlacementSystem" type="Node" parent="."]
+script = ExtResource("4_r0t31")
+metadata/_custom_type_script = "uid://dc7r0kp4fk6md"

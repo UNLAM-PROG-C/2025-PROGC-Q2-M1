@@ -1,13 +1,14 @@
 extends Area2D
 
-class_name white_bomberman
 
+class_name BlackBomberman
+const MACRO_SPEED = 75
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var rayCasts = $RayCasts
 
 var movement: Vector2 = Vector2.ZERO
 
-@export var movement_speed: float = 75
+@export var movement_speed: float = MACRO_SPEED
 
 func _process(delta: float) -> void:
 	
@@ -18,18 +19,18 @@ func _process(delta: float) -> void:
 	position += movement * delta * movement_speed
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_pressed("derecha"):
+	if Input.is_action_pressed("black_right"):
 		movement = Vector2.RIGHT
-		animated_sprite_2d.play("white_right")
-	elif Input.is_action_pressed("izquierda"):
+		animated_sprite_2d.play("black_right")
+	elif Input.is_action_pressed("black_left"):
 		movement = Vector2.LEFT
-		animated_sprite_2d.play("white_left")
-	elif Input.is_action_pressed("abajo"):
+		animated_sprite_2d.play("black_left")
+	elif Input.is_action_pressed("black_down"):
 		movement = Vector2.DOWN
-		animated_sprite_2d.play("white_down")
-	elif Input.is_action_pressed("arriba"):
+		animated_sprite_2d.play("black_down")
+	elif Input.is_action_pressed("black_up"):
 		movement = Vector2.UP
-		animated_sprite_2d.play("white_up")
+		animated_sprite_2d.play("black_up")
 	else:
 		movement = Vector2.ZERO
 		animated_sprite_2d.stop()

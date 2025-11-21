@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://bcbmt8fwybkoi"]
+[gd_scene load_steps=9 format=4 uid="uid://bcbmt8fwybkoi"]
 
 [ext_resource type="Texture2D" uid="uid://bv3od7dxw6lut" path="res://Assets/Sprites.png" id="1_jjgbg"]
 [ext_resource type="Script" uid="uid://c5ch1pe6sfd58" path="res://Scripts/camera_follow.gd" id="3_8gbba"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://djd3cdsja6lsl" path="res://Scenes/green_bomberman.tscn" id="5_21xkr"]
 [ext_resource type="PackedScene" uid="uid://br2p7tv7kdiap" path="res://Scenes/red_bomberman.tscn" id="5_kry3j"]
 [ext_resource type="PackedScene" uid="uid://cx67q1vswurvu" path="res://Scenes/white_bomberman.tscn" id="6_6bp64"]
-[ext_resource type="PackedScene" uid="uid://du3o4lcd7fqfw" path="res://Scenes/brick_wall.tscn" id="7_6bp64"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bo1nx"]
 texture = ExtResource("1_jjgbg")
@@ -252,33 +251,25 @@ sources/0 = SubResource("TileSetAtlasSource_bo1nx")
 [node name="main" type="Node"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
-position = Vector2(-8, -8)
 tile_map_data = PackedByteArray("AAAAAAAAAAADAAMAAAAAAAEAAAADAAMAAAAAAAIAAAADAAMAAAAAAAMAAAADAAMAAAAAAAQAAAADAAMAAAAAAAUAAAADAAMAAAAAAAYAAAADAAMAAAAAAAcAAAADAAMAAAAAAAgAAAADAAMAAAAAAAkAAAADAAMAAAAAAAoAAAADAAMAAAABAAAAAAADAAMAAAACAAAAAAADAAMAAAADAAAAAAADAAMAAAAEAAAAAAADAAMAAAAFAAAAAAADAAMAAAAGAAAAAAADAAMAAAAHAAAAAAADAAMAAAAIAAAAAAADAAMAAAAJAAAAAAADAAMAAAAKAAAAAAADAAMAAAALAAAAAAADAAMAAAAMAAAAAAADAAMAAAANAAAAAAADAAMAAAAOAAAAAAADAAMAAAACAAIAAAADAAMAAAAEAAIAAAADAAMAAAAGAAIAAAADAAMAAAAIAAIAAAADAAMAAAAKAAIAAAADAAMAAAAMAAIAAAADAAMAAAACAAQAAAADAAMAAAACAAYAAAADAAMAAAACAAgAAAADAAMAAAACAAoAAAADAAMAAAACAAwAAAADAAMAAAAEAAQAAAADAAMAAAAGAAQAAAADAAMAAAAEAAYAAAADAAMAAAAGAAYAAAADAAMAAAAEAAgAAAADAAMAAAAGAAgAAAADAAMAAAAEAAoAAAADAAMAAAAGAAoAAAADAAMAAAAEAAwAAAADAAMAAAAGAAwAAAADAAMAAAAIAAQAAAADAAMAAAAKAAQAAAADAAMAAAAMAAQAAAADAAMAAAAMAAYAAAADAAMAAAAKAAYAAAADAAMAAAAIAAYAAAADAAMAAAAIAAgAAAADAAMAAAAIAAoAAAADAAMAAAAIAAwAAAADAAMAAAAKAAgAAAADAAMAAAAKAAoAAAADAAMAAAAMAAgAAAADAAMAAAAMAAoAAAADAAMAAAAMAAwAAAADAAMAAAAKAAwAAAADAAMAAAAAAA4AAAADAAMAAAAAAA0AAAADAAMAAAAAAAwAAAADAAMAAAAAAAsAAAADAAMAAAAOAA4AAAADAAMAAAANAA4AAAADAAMAAAAMAA4AAAADAAMAAAALAA4AAAADAAMAAAAKAA4AAAADAAMAAAAJAA4AAAADAAMAAAAIAA4AAAADAAMAAAAHAA4AAAADAAMAAAAGAA4AAAADAAMAAAAFAA4AAAADAAMAAAAEAA4AAAADAAMAAAADAA4AAAADAAMAAAACAA4AAAADAAMAAAABAA4AAAADAAMAAAAOAAEAAAADAAMAAAAOAAIAAAADAAMAAAAOAAMAAAADAAMAAAAOAAQAAAADAAMAAAAOAAUAAAADAAMAAAAOAAYAAAADAAMAAAAOAAcAAAADAAMAAAAOAAgAAAADAAMAAAAOAAkAAAADAAMAAAAOAAoAAAADAAMAAAAOAAsAAAADAAMAAAAOAAwAAAADAAMAAAAOAA0AAAADAAMAAAA=")
 tile_set = SubResource("TileSet_8gbba")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(112, 112)
+position = Vector2(119.99999, 118.99999)
 scale = Vector2(10, 10)
 zoom = Vector2(2.5, 2.5)
 script = ExtResource("3_8gbba")
 
-[node name="BrickWall" type="Node" parent="."]
-
-[node name="BrickWall" parent="BrickWall" instance=ExtResource("7_6bp64")]
-position = Vector2(48, 16)
-
-[node name="Bomberman" type="Node" parent="."]
-
-[node name="BlackBomberman" parent="Bomberman" instance=ExtResource("4_jjvhh")]
-position = Vector2(208, 208)
+[node name="BlackBomberman" parent="." instance=ExtResource("4_jjvhh")]
+position = Vector2(215, 213)
 collision_mask = 15
 
-[node name="RedBomberman" parent="Bomberman" instance=ExtResource("5_kry3j")]
-position = Vector2(14, 208)
+[node name="RedBomberman" parent="." instance=ExtResource("5_kry3j")]
+position = Vector2(22, 216)
 
-[node name="GreenBomberman" parent="Bomberman" instance=ExtResource("5_21xkr")]
-position = Vector2(208, 16)
+[node name="GreenBomberman" parent="." instance=ExtResource("5_21xkr")]
+position = Vector2(215, 23)
 
-[node name="WhiteBomberman" parent="Bomberman" instance=ExtResource("6_6bp64")]
-position = Vector2(16, 16)
+[node name="WhiteBomberman" parent="." instance=ExtResource("6_6bp64")]
+position = Vector2(24, 24)
 collision_mask = 15
