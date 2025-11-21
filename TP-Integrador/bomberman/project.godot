@@ -15,6 +15,10 @@ run/main_scene="uid://bcbmt8fwybkoi"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+utils="*res://Scripts/utils.gd"
+
 [display]
 
 window/stretch/mode="canvas_items"
@@ -80,6 +84,7 @@ black_bomb={
 2d_physics/layer_4="Bomb"
 2d_physics/layer_5="Explosion"
 2d_physics/layer_6="Enemy"
+2d_physics/layer_7="PowerUp"
 
 [rendering]
 

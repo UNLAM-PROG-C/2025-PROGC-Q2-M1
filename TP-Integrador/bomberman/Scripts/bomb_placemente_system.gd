@@ -22,6 +22,7 @@ func place_bomb():
 	var bomb_position = Vector2(round(bomberman_position.x / MACRO_TILE_SIZE) * MACRO_TILE_SIZE, \
 								round(bomberman_position.y / MACRO_TILE_SIZE) * MACRO_TILE_SIZE)
 	
+	bomb.explosion_size = explosion_size
 	bomb.position = bomb_position
 	get_tree().root.add_child(bomb)
 	bomb_placed += 1

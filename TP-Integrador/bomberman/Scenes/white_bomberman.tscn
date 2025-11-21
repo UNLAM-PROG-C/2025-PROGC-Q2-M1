@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://cx67q1vswurvu"]
+[gd_scene load_steps=27 format=3 uid="uid://cx67q1vswurvu"]
 
 [ext_resource type="Texture2D" uid="uid://bv3od7dxw6lut" path="res://Assets/Sprites.png" id="1_japfm"]
 [ext_resource type="Script" uid="uid://drmw1wna1325y" path="res://Scripts/white_bomberman.gd" id="1_ur3nh"]
 [ext_resource type="Script" uid="uid://8lqkxflvnbak" path="res://Scripts/rayCasts.gd" id="3_mtyeh"]
 [ext_resource type="Script" uid="uid://dc7r0kp4fk6md" path="res://Scripts/bomb_placemente_system.gd" id="4_r0t31"]
+[ext_resource type="Script" uid="uid://crsj2d8pgpc4t" path="res://Scripts/power_up_system.gd" id="5_mh5wp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
 atlas = ExtResource("1_japfm")
@@ -171,6 +172,7 @@ radius = 7.0
 height = 14.0
 
 [node name="WhiteBomberman" type="Area2D"]
+collision_mask = 64
 script = ExtResource("1_ur3nh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -189,13 +191,13 @@ metadata/_custom_type_script = "uid://8lqkxflvnbak"
 
 [node name="Left" type="Node2D" parent="RayCasts/Horizontal"]
 
-[node name="LeftHorizontalBottom" type="RayCast2D" parent="RayCasts/Horizontal/Left"]
+[node name="LeftHorizontalBottom" type="RayCast2D" parent="RayCasts/Horizontal/Left" groups=["raycasts"]]
 position = Vector2(-2, 6)
 target_position = Vector2(-2, 0)
 collision_mask = 15
 collide_with_areas = true
 
-[node name="LeftHorizontalTop" type="RayCast2D" parent="RayCasts/Horizontal/Left"]
+[node name="LeftHorizontalTop" type="RayCast2D" parent="RayCasts/Horizontal/Left" groups=["raycasts"]]
 position = Vector2(-2, -6)
 target_position = Vector2(-2, 0)
 collision_mask = 15
@@ -203,13 +205,13 @@ collide_with_areas = true
 
 [node name="Right" type="Node2D" parent="RayCasts/Horizontal"]
 
-[node name="RightHorizontalBottom" type="RayCast2D" parent="RayCasts/Horizontal/Right"]
+[node name="RightHorizontalBottom" type="RayCast2D" parent="RayCasts/Horizontal/Right" groups=["raycasts"]]
 position = Vector2(2, 6)
 target_position = Vector2(2, 0)
 collision_mask = 15
 collide_with_areas = true
 
-[node name="RightHorizontalTop" type="RayCast2D" parent="RayCasts/Horizontal/Right"]
+[node name="RightHorizontalTop" type="RayCast2D" parent="RayCasts/Horizontal/Right" groups=["raycasts"]]
 position = Vector2(2, -6)
 target_position = Vector2(2, 0)
 collision_mask = 15
@@ -219,13 +221,13 @@ collide_with_areas = true
 
 [node name="Top" type="Node2D" parent="RayCasts/Vertical"]
 
-[node name="TopVerticalRight" type="RayCast2D" parent="RayCasts/Vertical/Top"]
+[node name="TopVerticalRight" type="RayCast2D" parent="RayCasts/Vertical/Top" groups=["raycasts"]]
 position = Vector2(3, -6)
 target_position = Vector2(0, -2)
 collision_mask = 15
 collide_with_areas = true
 
-[node name="TopVerticalLeft" type="RayCast2D" parent="RayCasts/Vertical/Top"]
+[node name="TopVerticalLeft" type="RayCast2D" parent="RayCasts/Vertical/Top" groups=["raycasts"]]
 position = Vector2(-3, -6)
 target_position = Vector2(0, -2)
 collision_mask = 15
@@ -233,13 +235,13 @@ collide_with_areas = true
 
 [node name="Bottom" type="Node2D" parent="RayCasts/Vertical"]
 
-[node name="BottomVerticalRight" type="RayCast2D" parent="RayCasts/Vertical/Bottom"]
+[node name="BottomVerticalRight" type="RayCast2D" parent="RayCasts/Vertical/Bottom" groups=["raycasts"]]
 position = Vector2(2, 6)
 target_position = Vector2(0, 2)
 collision_mask = 15
 collide_with_areas = true
 
-[node name="BottomVerticalLeft" type="RayCast2D" parent="RayCasts/Vertical/Bottom"]
+[node name="BottomVerticalLeft" type="RayCast2D" parent="RayCasts/Vertical/Bottom" groups=["raycasts"]]
 position = Vector2(-2, 6)
 target_position = Vector2(0, 2)
 collision_mask = 15
@@ -248,3 +250,13 @@ collide_with_areas = true
 [node name="BombPlacementSystem" type="Node" parent="."]
 script = ExtResource("4_r0t31")
 metadata/_custom_type_script = "uid://dc7r0kp4fk6md"
+
+[node name="PowerUpSystem" type="Node" parent="."]
+script = ExtResource("5_mh5wp")
+
+[node name="SpeedUpTimer" type="Timer" parent="PowerUpSystem"]
+wait_time = 10.0
+one_shot = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="PowerUpSystem/SpeedUpTimer" to="PowerUpSystem" method="_on_speed_up_timer_timeout"]
