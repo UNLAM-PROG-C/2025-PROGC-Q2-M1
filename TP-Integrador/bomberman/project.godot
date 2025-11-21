@@ -78,6 +78,8 @@ black_bomb={
 2d_physics/layer_2="WallTile"
 2d_physics/layer_3="BrickWall"
 2d_physics/layer_4="Bomb"
+2d_physics/layer_5="Explosion"
+2d_physics/layer_6="Enemy"
 
 [rendering]
 

@@ -39,5 +39,6 @@ func _input(event: InputEvent) -> void:
 		movement = Vector2.ZERO
 		animated_sprite_2d.stop()
 	
-	
+func die():
+	print("DIE")
 	
