@@ -46,7 +46,9 @@ func _input(event: InputEvent) -> void:
 		animated_sprite_2d.stop()
 
 func die():
-	print("DIE")
+	animated_sprite_2d.play("die")
+	movement = Vector2.ZERO
+	set_process_input(false)
 
 func _on_area_entered(area: Area2D) -> void:
 	if area is PowerUp:

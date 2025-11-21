@@ -106,7 +106,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8erm5")
 }],
-"loop": true,
+"loop": false,
 "name": &"die",
 "speed": 10.0
 }, {
@@ -177,7 +177,7 @@ script = ExtResource("1_ur3nh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_olqyp")
-animation = &"white_down"
+animation = &"die"
 autoplay = "white_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
