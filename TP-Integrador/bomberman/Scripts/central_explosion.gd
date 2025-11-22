@@ -2,7 +2,7 @@ extends Area2D
 
 
 class_name CentralExplosion
-
+@onready var audio_explosion: AudioStreamPlayer2D = $AudioExplosion
 const EXPLOSION_SIZE = 1
 const TILE_SIZE = 16
 
@@ -28,6 +28,7 @@ var size = EXPLOSION_SIZE
 
 func _ready() -> void:
 	check_raycasts()
+	audio_explosion.play()
 	
 #UP DIRECTION
 func check_raycasts():

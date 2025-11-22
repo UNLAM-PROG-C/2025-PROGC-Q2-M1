@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://b6cvul6vk16sh"]
+[gd_scene load_steps=28 format=3 uid="uid://b6cvul6vk16sh"]
 
 [ext_resource type="Script" uid="uid://hrlfefthyq60" path="res://Scripts/bomberman_base.gd" id="1_8yhyx"]
 [ext_resource type="Texture2D" uid="uid://bv3od7dxw6lut" path="res://Assets/Sprites.png" id="2_owmxp"]
 [ext_resource type="Script" uid="uid://8lqkxflvnbak" path="res://Scripts/rayCasts.gd" id="3_ogapk"]
 [ext_resource type="Script" uid="uid://dc7r0kp4fk6md" path="res://Scripts/bomb_placemente_system.gd" id="4_7adhe"]
 [ext_resource type="Script" uid="uid://crsj2d8pgpc4t" path="res://Scripts/power_up_system.gd" id="5_32ovc"]
+[ext_resource type="AudioStream" uid="uid://l477y55kq12e" path="res://audio/fireIntheHole.mp3" id="6_owmxp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
 atlas = ExtResource("2_owmxp")
@@ -257,6 +258,9 @@ script = ExtResource("5_32ovc")
 [node name="SpeedUpTimer" type="Timer" parent="PowerUpSystem"]
 wait_time = 10.0
 one_shot = true
+
+[node name="AudioBomb" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_owmxp")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="PowerUpSystem/SpeedUpTimer" to="PowerUpSystem" method="_on_speed_up_timer_timeout"]

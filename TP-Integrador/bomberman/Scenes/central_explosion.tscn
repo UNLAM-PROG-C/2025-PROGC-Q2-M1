@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://lncdnw6mrd6q"]
+[gd_scene load_steps=11 format=3 uid="uid://lncdnw6mrd6q"]
 
 [ext_resource type="Script" uid="uid://b0tfgkruqili8" path="res://Scripts/central_explosion.gd" id="1_in8p3"]
 [ext_resource type="Texture2D" uid="uid://bv3od7dxw6lut" path="res://Assets/Sprites.png" id="1_p42lb"]
 [ext_resource type="Script" uid="uid://8lqkxflvnbak" path="res://Scripts/rayCasts.gd" id="3_qd0fq"]
+[ext_resource type="AudioStream" uid="uid://1u8o34qhumw5" path="res://audio/explosionSonido.mp3" id="4_qd0fq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bkhx2"]
 atlas = ExtResource("1_p42lb")
@@ -80,6 +81,9 @@ collide_with_areas = true
 target_position = Vector2(16, 0)
 collision_mask = 6
 collide_with_areas = true
+
+[node name="AudioExplosion" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_qd0fq")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

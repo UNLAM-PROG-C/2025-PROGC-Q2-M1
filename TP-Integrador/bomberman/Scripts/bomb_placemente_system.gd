@@ -7,6 +7,9 @@ const MACRO_TILE_SIZE = 16
 const MACRO_BOMB_PLACED = 0
 const MACRO_EXPLOSION_SIZE = 1
 
+@onready var audio_bomb: AudioStreamPlayer2D = $"../AudioBomb"
+
+
 # CORRECCIÓN 1: Cambiamos el tipo específico 'WhiteBomberman' por el genérico 'Bomberman'
 # También renombramos la variable para que tenga sentido con cualquier personaje.
 var bomberman : Bomberman = null
@@ -22,6 +25,8 @@ func place_bomb():
 	# CORRECCIÓN 2: Usamos la variable genérica 'bomberman'
 	if bomb_placed == bomberman.max_bombs:
 		return
+	
+	audio_bomb.play()
 	
 	var bomb = BOMB_SCENE.instantiate()
 	

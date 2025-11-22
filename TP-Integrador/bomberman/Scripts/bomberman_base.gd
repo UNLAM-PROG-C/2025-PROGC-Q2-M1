@@ -56,6 +56,7 @@ func _input(event: InputEvent) -> void:
 		play_anim("up")
 	elif Input.is_action_just_pressed(input_bomb):
 		bomb_placed_system.place_bomb()
+		
 	else:
 		movement = Vector2.ZERO
 		animated_sprite_2d.stop()
