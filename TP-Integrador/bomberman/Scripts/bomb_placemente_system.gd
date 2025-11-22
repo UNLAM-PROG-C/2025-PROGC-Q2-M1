@@ -8,8 +8,6 @@ const MACRO_BOMB_PLACED = 0
 const MACRO_EXPLOSION_SIZE = 1
 
 @onready var audio_bomb: AudioStreamPlayer2D = $"../AudioBomb"
-
-
 # CORRECCIÓN 1: Cambiamos el tipo específico 'WhiteBomberman' por el genérico 'Bomberman'
 # También renombramos la variable para que tenga sentido con cualquier personaje.
 var bomberman : Bomberman = null

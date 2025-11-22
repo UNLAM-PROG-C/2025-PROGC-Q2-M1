@@ -2,7 +2,6 @@ extends Area2D
 
 
 class_name CentralExplosion
-@onready var audio_explosion: AudioStreamPlayer2D = $AudioExplosion
 const EXPLOSION_SIZE = 1
 const TILE_SIZE = 16
 
@@ -12,6 +11,7 @@ const TILE_SIZE = 16
 	$RayCasts/RayCastsDown,
 	$RayCasts/RayCastsLeft
 ]
+@onready var audio_explosion: AudioStreamPlayer2D = $AudioExplosion
 
 var animation_names = ["explosion_up", "explosion_right", "explosion_down", "explosion_left"]
 var animation_directions = [
