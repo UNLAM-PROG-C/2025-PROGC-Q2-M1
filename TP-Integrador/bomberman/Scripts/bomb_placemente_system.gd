@@ -1,24 +1,33 @@
 extends Node
 
 class_name BombPlacementSystem
+
 const BOMB_SCENE = preload("res://Scenes/bomb.tscn")
 const MACRO_TILE_SIZE = 16
 const MACRO_BOMB_PLACED = 0
 const MACRO_EXPLOSION_SIZE = 1
 
-var white_bomberman : WhiteBomberman = null
+# CORRECCIÓN 1: Cambiamos el tipo específico 'WhiteBomberman' por el genérico 'Bomberman'
+# También renombramos la variable para que tenga sentido con cualquier personaje.
+var bomberman : Bomberman = null
+
 var bomb_placed = MACRO_BOMB_PLACED
 var explosion_size = MACRO_EXPLOSION_SIZE
 
 func _ready() -> void:
-	white_bomberman = get_parent()
+	# Al hacer get_parent(), ahora guardamos al padre sea quien sea (White o Black)
+	bomberman = get_parent()
 
 func place_bomb():
-	if bomb_placed == white_bomberman.max_bombs:
+	# CORRECCIÓN 2: Usamos la variable genérica 'bomberman'
+	if bomb_placed == bomberman.max_bombs:
 		return
 	
 	var bomb = BOMB_SCENE.instantiate()
-	var bomberman_position = white_bomberman.position
+	
+	# CORRECCIÓN 3: Obtenemos la posición del bomberman genérico
+	var bomberman_position = bomberman.position
+	
 	var bomb_position = Vector2(round(bomberman_position.x / MACRO_TILE_SIZE) * MACRO_TILE_SIZE, \
 								round(bomberman_position.y / MACRO_TILE_SIZE) * MACRO_TILE_SIZE)
 	

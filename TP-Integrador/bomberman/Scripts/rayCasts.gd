@@ -25,7 +25,7 @@ class_name RayCasts
 func check_collisions() -> Array[Vector2]:
 	var collisions: Array[Vector2]=[]
 	
-	var is_left_colliding = left_horizontal_raycasts.reduce( is_raycast_colliding, false)
+	var is_left_colliding = left_horizontal_raycasts.reduce(is_raycast_colliding, false)
 	if(is_left_colliding):
 		collisions.append(Vector2.LEFT)
 	var is_right_colliding = right_horizontal_raycasts.reduce(is_raycast_colliding, false)

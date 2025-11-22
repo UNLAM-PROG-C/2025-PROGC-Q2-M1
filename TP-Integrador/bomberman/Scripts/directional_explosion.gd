@@ -8,5 +8,5 @@ func play_animation(animation_name: String):
 	animated_sprite_2D.play(animation_name)
 
 func _on_area_entered(area: Area2D) -> void:
-	if area is WhiteBomberman:
-		(area as WhiteBomberman).die()
+	if area is Bomberman:
+		(area as Bomberman).die()
