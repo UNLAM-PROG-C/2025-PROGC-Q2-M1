@@ -72,6 +72,7 @@ func die():
 	play_anim("die") # Asegúrate de tener "white_die", "black_die", etc.
 	movement = Vector2.ZERO
 	set_process_input(false)
+	queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
 	if area is PowerUp:
