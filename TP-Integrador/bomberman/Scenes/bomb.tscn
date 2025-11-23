@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dpwcokftcbsk3"]
+[gd_scene load_steps=9 format=3 uid="uid://dpwcokftcbsk3"]
 
 [ext_resource type="Script" uid="uid://bgd3phjcsjrir" path="res://Scripts/bomb.gd" id="1_kdyat"]
 [ext_resource type="Texture2D" uid="uid://bv3od7dxw6lut" path="res://Assets/Sprites.png" id="1_yx723"]
@@ -40,6 +40,11 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_mkuqu"]
 radius = 8.0
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kdyat"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Bomb" type="Area2D"]
 script = ExtResource("1_kdyat")
 
@@ -56,5 +61,8 @@ shape = SubResource("CircleShape2D_mkuqu")
 wait_time = 3.0
 one_shot = true
 autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_kdyat")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

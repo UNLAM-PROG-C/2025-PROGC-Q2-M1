@@ -17,6 +17,7 @@ var movement: Vector2 = Vector2.ZERO
 @export var movement_speed: float = MACRO_SPEED
 var max_bombs = MACRO_MAX_BOMBS
 
+
 # --- CONFIGURACIÓN PARA MULTIJUGADOR ---
 @export_group("Configuración Jugador")
 @export var animation_prefix: String = "black" # Ejemplo: "white", "black", "red"
@@ -25,6 +26,18 @@ var max_bombs = MACRO_MAX_BOMBS
 @export var input_left: String = "black_left"
 @export var input_right: String = "black_right"
 @export var input_bomb: String = "black_bomb"
+
+@export var player_id := 1 :
+	set(id):
+		player_id = id
+		# Esto es lo importante: Le avisa a Godot quién es el dueño real
+		set_multiplayer_authority(id)
+
+# Esta función se ejecuta ANTES que el _ready, apenas el nodo toca la escena.
+func _enter_tree():
+	# Intentamos convertir el nombre del nodo en un número (ID).
+	# Como en main.gd le pusimos el ID como nombre, esto funcionará.
+	set_multiplayer_authority(str(name).to_int())
 
 func _ready():
 	# Puedes personalizar esto por jugador si quisieras layers distintos

@@ -27,8 +27,13 @@ var size = EXPLOSION_SIZE
 
 
 func _ready() -> void:
-	check_raycasts()
+# --- CAMBIO: Solo el servidor calcula colisiones ---
+	if multiplayer.is_server():
+		check_raycasts()
+	
+	# Esto SÍ ocurre en todos (Audio y Visuales)
 	audio_explosion.play()
+	
 	
 #UP DIRECTION
 func check_raycasts():
@@ -55,11 +60,17 @@ func create_explosion_for_size(size: int, animation_name: String, animation_posi
 		else:
 			create_explosion_animation_slice("%s_end" % animation_name, animation_position * (i+1))
 			
-func create_explosion_animation_slice(animation_name: String, animation_position: Vector2):
+func create_explosion_animation_slice(anim_name: String, anim_position: Vector2):
 	var directional_explosion = DIRECTIONAL_EXPLOSION.instantiate()
-	directional_explosion.position = animation_position
-	add_child(directional_explosion)
-	directional_explosion.play_animation(animation_name)
+	
+	# Sumamos nuestra posición actual (global_position) al offset
+	directional_explosion.global_position = self.global_position + anim_position
+	
+	# 2. Asignamos el Nombre (ESTO ES LO QUE FALTABA REPLICAR)
+	directional_explosion.animation_name = anim_name 
+	
+	# 3. Agregamos al árbol (Esto dispara el Spawner y envía los datos anteriores)
+	get_tree().current_scene.add_child(directional_explosion, true)	
 	
 func calculate_size_of_explosion(raycasts: RayCast2D):
 	var collider = raycasts.get_collider()
@@ -69,9 +80,13 @@ func calculate_size_of_explosion(raycasts: RayCast2D):
 		var size_of_explosion_before_collider = max(roundi(absf(distance_to_collider) / TILE_SIZE - 1), 0)
 		return	size_of_explosion_before_collider	
 	
-func execute_explosion_collision (collider: Object):
+func execute_explosion_collision(collider: Object):
 	if collider is BrickWall:
-		(collider as BrickWall).destroy()
+		# ANTES: (collider as BrickWall).destroy()
+		
+		# AHORA: Usamos rpc() para gritarle a todos
+		# "call_local" asegura que también se ejecute en el servidor
+		(collider as BrickWall).rpc("destroy")
 		
 
 func _on_animated_sprite_2d_animation_finished() -> void:

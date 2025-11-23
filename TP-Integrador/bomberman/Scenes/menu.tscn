@@ -44,19 +44,26 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 19
 
-[node name="Play" type="Button" parent="TextureRect/VBoxContainer"]
+[node name="Host" type="Button" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 2
 theme_override_constants/h_separation = 6
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_cayip")
-text = "JUGAR"
+text = "HOST"
 
-[node name="Quit" type="Button" parent="TextureRect/VBoxContainer"]
+[node name="Join" type="Button" parent="TextureRect/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_158mb")
+text = "JOIN"
+
+[node name="Salir" type="Button" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_158mb")
 text = "SALIR"
 
-[connection signal="pressed" from="TextureRect/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="TextureRect/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="TextureRect/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="TextureRect/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="TextureRect/VBoxContainer/Salir" to="." method="_on_salir_pressed"]

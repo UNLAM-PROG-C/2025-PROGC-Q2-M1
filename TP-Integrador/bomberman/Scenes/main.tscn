@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=4 uid="uid://bcbmt8fwybkoi"]
+[gd_scene load_steps=11 format=4 uid="uid://bcbmt8fwybkoi"]
 
+[ext_resource type="Script" uid="uid://orb7g7ab3ir6" path="res://Scripts/main.gd" id="1_344ge"]
 [ext_resource type="Texture2D" uid="uid://bv3od7dxw6lut" path="res://Assets/Sprites.png" id="1_jjgbg"]
 [ext_resource type="Script" uid="uid://c5ch1pe6sfd58" path="res://Scripts/camera_follow.gd" id="3_8gbba"]
 [ext_resource type="Resource" uid="uid://dsvk1f21dlm3r" path="res://Resources/speed_up.tres" id="5_6iyac"]
@@ -7,10 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://du3o4lcd7fqfw" path="res://Scenes/brick_wall.tscn" id="7_6bp64"]
 [ext_resource type="Resource" uid="uid://d2w8jmyk5vucx" path="res://Resources/fire_up.tres" id="7_d1ilt"]
 [ext_resource type="Resource" uid="uid://bef8ylbfytqrc" path="res://Resources/wall_pass.tres" id="7_jkdf5"]
-[ext_resource type="PackedScene" uid="uid://bchfjuw37wr8p" path="res://Scenes/WhiteBomberman.tscn" id="10_d1ilt"]
-[ext_resource type="PackedScene" uid="uid://codjkd1lphtxj" path="res://Scenes/BlackBomberman.tscn" id="11_6iyac"]
-[ext_resource type="PackedScene" uid="uid://dmxntlewbj8ak" path="res://Scenes/RedBomberman.tscn" id="11_d1ilt"]
-[ext_resource type="PackedScene" uid="uid://dcvi7qwkq3wbj" path="res://Scenes/GreenBomberman.tscn" id="11_fdnlq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bo1nx"]
 texture = ExtResource("1_jjgbg")
@@ -254,6 +251,7 @@ physics_layer_0/collision_layer = 2
 sources/0 = SubResource("TileSetAtlasSource_bo1nx")
 
 [node name="main" type="Node"]
+script = ExtResource("1_344ge")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(-8, -8)
@@ -446,16 +444,6 @@ power_up_res = ExtResource("6_fdnlq")
 position = Vector2(32, 48)
 power_up_res = ExtResource("6_fdnlq")
 
-[node name="Bomberman" type="Node" parent="."]
-
-[node name="BlackBomberman" parent="Bomberman" instance=ExtResource("11_6iyac")]
-position = Vector2(208, 208)
-
-[node name="RedBomberman" parent="Bomberman" instance=ExtResource("11_d1ilt")]
-position = Vector2(16, 208)
-
-[node name="WhiteBomberman" parent="Bomberman" instance=ExtResource("10_d1ilt")]
-position = Vector2(16, 16)
-
-[node name="GreenBomberman" parent="Bomberman" instance=ExtResource("11_fdnlq")]
-position = Vector2(208, 16)
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://bchfjuw37wr8p", "uid://codjkd1lphtxj", "uid://dmxntlewbj8ak", "uid://dcvi7qwkq3wbj", "uid://lncdnw6mrd6q", "uid://mvkjaodjal05", "uid://d1mjn6j6hrqk1", "uid://dpwcokftcbsk3")
+spawn_path = NodePath("..")

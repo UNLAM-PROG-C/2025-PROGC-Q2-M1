@@ -28,6 +28,12 @@ func place_bomb():
 	
 	var bomb = BOMB_SCENE.instantiate()
 	
+	# 🚨 NUEVO CAMBIO CLAVE PARA MULTIJUGADOR:
+	# Asignamos la autoridad de red de la bomba al jugador que la está colocando.
+	# Esto permite que el cliente (dueño del Bomberman) use el MultiplayerSpawner para
+	# replicar la bomba al servidor y a otros clientes.
+	bomb.set_multiplayer_authority(bomberman.get_multiplayer_authority()) 
+	
 	# CORRECCIÓN 3: Obtenemos la posición del bomberman genérico
 	var bomberman_position = bomberman.position
 	
@@ -36,7 +42,7 @@ func place_bomb():
 	
 	bomb.explosion_size = explosion_size
 	bomb.position = bomb_position
-	get_tree().root.add_child(bomb)
+	get_tree().current_scene.add_child(bomb, true)
 	bomb_placed += 1
 	
 	bomb.tree_exiting.connect(on_bomb_exploded)
