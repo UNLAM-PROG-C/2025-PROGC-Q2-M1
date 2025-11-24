@@ -4,11 +4,6 @@
 
 [node name="WhiteBomberman" instance=ExtResource("1_ck54w")]
 animation_prefix = "white"
-input_up = "white_up"
-input_down = "white_down"
-input_left = "white_left"
-input_right = "white_right"
-input_bomb = "white_bomb"
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 animation = &"white_down"

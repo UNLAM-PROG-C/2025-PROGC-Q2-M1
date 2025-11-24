@@ -445,5 +445,7 @@ position = Vector2(32, 48)
 power_up_res = ExtResource("6_fdnlq")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://bchfjuw37wr8p", "uid://codjkd1lphtxj", "uid://dmxntlewbj8ak", "uid://dcvi7qwkq3wbj", "uid://lncdnw6mrd6q", "uid://mvkjaodjal05", "uid://d1mjn6j6hrqk1", "uid://dpwcokftcbsk3")
-spawn_path = NodePath("..")
+_spawnable_scenes = PackedStringArray("uid://bchfjuw37wr8p", "uid://dmxntlewbj8ak", "uid://codjkd1lphtxj", "uid://dcvi7qwkq3wbj", "uid://dpwcokftcbsk3", "uid://lncdnw6mrd6q", "uid://mvkjaodjal05", "uid://d1mjn6j6hrqk1")
+spawn_path = NodePath("../Players")
+
+[node name="Players" type="Node2D" parent="."]

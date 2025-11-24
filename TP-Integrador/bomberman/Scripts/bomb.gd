@@ -8,15 +8,17 @@ const MACRO_EXPLOSION_SIZE = 1
 var explosion_size = MACRO_EXPLOSION_SIZE
 
 func _on_timer_timeout() -> void:
-# --- CAMBIO: Solo el servidor hace los cálculos ---
+	# --- Solo el servidor decide cuándo explotar ---
 	if not multiplayer.is_server():
 		return
 
 	var explosion = CENTRAL_EXPLOSION.instantiate()
 	explosion.position = position
-	explosion.size = explosion_size
+	explosion.size = explosion_size # Asumiendo que tu explosión tiene esta variable
 	
-	# Agregamos a la escena actual (main) para que el Spawner la replique
-	get_tree().current_scene.add_child(explosion, true)
+	# --- CORRECCIÓN CLAVE ---
+	# Buscamos el nodo "Players" dentro de la escena actual (main)
+	# y añadimos la explosión allí, donde el Spawner está mirando.
+	get_tree().current_scene.get_node("Players").add_child(explosion, true)
 	
 	queue_free()

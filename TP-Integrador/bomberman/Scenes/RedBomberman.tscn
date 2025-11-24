@@ -165,14 +165,10 @@ animations = [{
 }]
 
 [node name="RedBomberman" instance=ExtResource("1_q4mcu")]
+position = Vector2(16, 208)
 animation_prefix = "red"
-input_up = "red_up"
-input_down = "red_down"
-input_left = "red_left"
-input_right = "red_right"
-input_bomb = "red_bomb"
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_jwa8i")
-animation = &"red_up"
+animation = &"red_right"
 autoplay = "red_down"

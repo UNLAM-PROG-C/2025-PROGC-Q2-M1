@@ -1,43 +1,39 @@
 extends Control
 
 const PORT = 7000
-const DEFAULT_IP = "127.0.0.1" # IP Local (tu propia PC)
+# Para probar en la misma PC usa 127.0.0.1
+# Para probar entre dos PCs en tu casa, pon la IP local del Servidor (ej: 192.168.0.X)
+@export var address = "127.0.0.1" 
 
 func _on_host_pressed() -> void:
-	# 1. Creamos el peer (el conector)
 	var peer = ENetMultiplayerPeer.new()
-	
-	# 2. Intentamos crear el Servidor
 	var error = peer.create_server(PORT)
 	if error != OK:
 		print("Error al crear servidor: " + str(error))
 		return
-		
-	# 3. Asignamos el conector al sistema multijugador global
-	multiplayer.multiplayer_peer = peer
 	
-	# 4. ¡Arrancamos el juego!
+	multiplayer.multiplayer_peer = peer
+	print("Servidor creado. Esperando jugadores...")
+	
+	# El HOST es quien fuerza el cambio de escena.
 	start_game()
 
 func _on_join_pressed() -> void:
-	# 1. Creamos el peer
 	var peer = ENetMultiplayerPeer.new()
-	
-	# 2. Intentamos conectar como Cliente a la IP (Localhost por ahora)
-	# Si quisieras jugar con un amigo en otra casa, cambiarías DEFAULT_IP por su IP pública.
-	var error = peer.create_client(DEFAULT_IP, PORT)
+	var error = peer.create_client(address, PORT)
 	if error != OK:
-		print("Error al intentar unirse: " + str(error))
+		print("Error al unirse: " + str(error))
 		return
 		
-	# 3. Asignamos el conector
 	multiplayer.multiplayer_peer = peer
-	
-	# 4. Arrancamos el juego (El cliente cargará el mapa y esperará a que el servidor le mande datos)
+	print("Conectando...")
+	# NOTA: El cliente NO llama a start_game() manualmente si usas un Spawner.
+	# Pero para este nivel de tutorial, lo dejaremos manual o esperaremos sync.
+	# Lo más sencillo ahora es cargar la escena vacía y esperar que el Spawner llene todo.
 	start_game()
 
 func start_game():
-	# Cargamos la escena principal
+	# IMPORTANTE: Asegúrate de que la ruta sea exacta (Mayúsculas/Minúsculas)
 	get_tree().change_scene_to_file("res://Scenes/main.tscn")
 
 func _on_salir_pressed() -> void:

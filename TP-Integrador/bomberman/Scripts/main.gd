@@ -1,72 +1,75 @@
 extends Node
 
-# --- 1. PRECARGAMOS LOS 4 SABORES DE BOMBERMAN ---
-const PLAYER_SCENES = [
-	preload("res://Scenes/WhiteBomberman.tscn"), # Jugador 0 (Host)
-	preload("res://Scenes/BlackBomberman.tscn"), # Jugador 1
-	preload("res://Scenes/RedBomberman.tscn"),   # Jugador 2
-	preload("res://Scenes/GreenBomberman.tscn")  # Jugador 3
-]
-@onready var multiplayer_spawner: MultiplayerSpawner = $MultiplayerSpawner
-# --- 2. DEFINIMOS LAS 4 ESQUINAS (COORDENADAS) ---
-# IMPORTANTE: Ajusta estos números (X, Y) para que caigan en las esquinas libres de tu mapa real.
-# Puedes ver las coordenadas poniendo el mouse sobre el mapa en el editor.
-const SPAWN_POSITIONS = [
-	Vector2(16, 16),     # Esquina Superior Izquierda (Para el Blanco)
-	Vector2(208, 208),   # Esquinsda Inferior Derecha (Para el Negro)
-	Vector2(216, 24),    # Esquina Superior Derecha (Para el Rojo)
-	Vector2(24, 184)     # Esquina Inferior Izquierda (Para el Verde)
+# --- 1. LISTA DE ESCENAS DE JUGADORES ---
+# En lugar de cargar solo uno, cargamos los 4 en un Array.
+# El orden aquí define quién es el Jugador 1, 2, 3 y 4.
+var character_scenes = [
+	preload("res://Scenes/WhiteBomberman.tscn"), # Jugador 1 (Index 0)
+	preload("res://Scenes/RedBomberman.tscn"),   # Jugador 2 (Index 1)
+	preload("res://Scenes/BlackBomberman.tscn"), # Jugador 3 (Index 2)
+	preload("res://Scenes/GreenBomberman.tscn")  # Jugador 4 (Index 3)
 ]
 
-# Contador para saber qué "turno" le toca al que entra
-var players_loaded = 0
+# 2. REFERENCIA AL CONTENEDOR
+@onready var players_container = $Players
+
+# 3. PUNTOS DE APARICIÓN (Ajustados para que no caigan en la pared)
+# Estos valores suelen funcionar mejor si tus tiles son de 64px.
+# Si quedan mal, puedes volver a poner los tuyos (48, 48).
+var spawn_points = [
+	Vector2(16, 16),     # J1: Arriba Izquierda - OK
+	Vector2(16, 208),   # J2: Arriba Derecha - Por transform
+	Vector2(208, 16),    # J3: Abajo Izquierda - Por transform
+	Vector2(208, 208)   # J4: Abajo Derecha - OK
+]
 
 func _ready():
-	# Solo el servidor se encarga de gestionar quién entra y quién sale
-		
-	if multiplayer.is_server():
-		multiplayer.peer_connected.connect(_on_peer_connected)
-		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-		
-		# El servidor se spawnea a sí mismo (ID 1) apenas inicia
-		_on_peer_connected(1)
-
-# Esta función se ejecuta SOLO EN EL SERVIDOR cada vez que alguien se conecta
-func _on_peer_connected(id: int):
-	if players_loaded >= 4:
-		print("Sala llena")
+	# --- LÓGICA DE SERVIDOR ---
+	if not multiplayer.is_server():
 		return
+	
+	print("Soy el Host, iniciando gestión de jugadores...")
+	
+	multiplayer.peer_connected.connect(add_player)
+	multiplayer.peer_disconnected.connect(remove_player)
+	
+	# Crear al Host (Jugador 1)
+	add_player(1)
+	
+	# Crear a los que ya estén conectados
+	for peer_id in multiplayer.get_peers():
+		add_player(peer_id)
 
-	var index = players_loaded
-	print("--- SPAWNEANDO JUGADOR NUEVO ---")
-	print("ID de Red: ", id)
-	print("Índice de turno: ", index)
+func add_player(id: int):
+	print("Generando personaje para ID: ", id)
 	
-	# Verificar que no nos salimos del array
-	if index >= SPAWN_POSITIONS.size():
-		print("ERROR: ¡No hay más posiciones configuradas en SPAWN_POSITIONS!")
-		return
+	# 1. CALCULAR ÍNDICE
+	# Contamos cuántos niños hay ya en el contenedor para saber si toca el J1, J2, etc.
+	var index = players_container.get_child_count()
+	
+	# Usamos el operador % (módulo) para que si entra un 5º jugador,
+	# vuelva a usar el skin del primero (rotación cíclica).
+	var character_index = index % character_scenes.size()
+	var spawn_index = index % spawn_points.size()
+	
+	# 2. ELEGIR LA ESCENA CORRECTA
+	# Aquí ocurre la magia: sacamos la escena específica del Array
+	var scene_to_spawn = character_scenes[character_index]
+	var player_instance = scene_to_spawn.instantiate()
+	
+	# 3. CONFIGURAR
+	player_instance.name = str(id) # El nombre debe ser el ID para la red
+	player_instance.player_id = id
+	player_instance.position = spawn_points[spawn_index]
+	
+	# 4. AÑADIR AL JUEGO
+	# Al añadirlo, el MultiplayerSpawner detectará QUÉ escena es (White, Red, etc.)
+	# y le dirá al cliente que cargue esa misma.
+	players_container.add_child(player_instance, true)
 
-	var spawn_pos = SPAWN_POSITIONS[index]
-	print("Posición elegida: ", spawn_pos)
-	
-	var player_scene = PLAYER_SCENES[index]
-	var player = player_scene.instantiate()
-	
-	player.name = str(id)
-	player.player_id = id
-	
-	# Asignamos la posición
-	player.global_position = spawn_pos
-	print("Posición asignada al nodo: ", player.global_position)
-	
-	add_child(player)
-	players_loaded += 1
+func remove_player(id: int):
+	if players_container.has_node(str(id)):
+		players_container.get_node(str(id)).queue_free()
 
-func _on_peer_disconnected(id: int):
-	# Si alguien se va, lo borramos del juego
-	if has_node(str(id)):
-		get_node(str(id)).queue_free()
-		# Nota: No restamos players_loaded para evitar que si sale el Negro (1)
-		# y entra otro, le den el Negro de nuevo y se superponga con la lógica.
-		# (Para un juego simple esto está bien).
+# Nota: Borré la función _asignar_color porque ya no hace falta pintar nada.
+# Los colores ahora vienen "de fábrica" en cada escena (.tscn).

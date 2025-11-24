@@ -165,12 +165,8 @@ animations = [{
 }]
 
 [node name="GreenBomberman" instance=ExtResource("1_5mqyc")]
+position = Vector2(208, 16)
 animation_prefix = "green"
-input_up = "green_up"
-input_down = "green_down"
-input_left = "green_left"
-input_right = "green_right"
-input_bomb = "green_bomb"
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_w10yp")
