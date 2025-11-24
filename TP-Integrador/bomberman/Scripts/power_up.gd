@@ -3,9 +3,6 @@ class_name PowerUp
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
-# --- CAMBIO CLAVE ---
-# Agregamos @export para que aparezca en el Inspector y en el Sincronizador.
-# Agregamos 'set' para que cuando cambie el tipo, cambie el dibujo.
 @export var type: Utils.PowerUpType = Utils.PowerUpType.BOMB_UP :
 	set(value):
 		type = value
@@ -20,16 +17,9 @@ class_name PowerUp
 func _ready():
 	self.collision_layer = 64
 	self.collision_mask = 1
-	# Al nacer, nos aseguramos de tener la textura correcta
 	update_texture()
 
 func update_texture():
-	# Aquí asignamos la textura. Como es complejo pasar recursos por red,
-	# lo más fácil es tener un array precargado o cargarlo dinámicamente.
-	# Ejemplo simple cargando desde disco (asegurate que los nombres coincidan):
-	
-	# Si prefieres usar tu sistema actual de 'init', avísame, pero en red
-	# es mejor que el tipo (INT) dicte la textura.
 	var texture_path = ""
 	match type:
 		Utils.PowerUpType.BOMB_UP: texture_path = "res://Assets/PowerUpBombUp.png"
@@ -42,6 +32,6 @@ func update_texture():
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Bomberman:
-		# Importante: Pasar el 'type' al sistema del jugador
+		# Pasar el 'type' al sistema del jugador
 		body.power_up_system.enable_power_up(type)
 		queue_free()

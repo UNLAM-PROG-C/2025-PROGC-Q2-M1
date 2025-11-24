@@ -64,6 +64,65 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_158mb")
 text = "SALIR"
 
+[node name="Lobby" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobby"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Timer" type="Label" parent="Lobby/VBoxContainer"]
+layout_mode = 2
+text = "Tiempo restante: 60 segundos"
+
+[node name="PlayerCount" type="Label" parent="Lobby/VBoxContainer"]
+layout_mode = 2
+text = "Jugadores 1/4"
+
+[node name="Start" type="Button" parent="Lobby/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Iniciar partida"
+
+[node name="Join" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CenterContainer" type="CenterContainer" parent="Join"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Join/CenterContainer"]
+layout_mode = 2
+
+[node name="Join" type="Label" parent="Join/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Conectar al servidor"
+
+[node name="IP" type="LineEdit" parent="Join/CenterContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "e.g. 127.0.0.1"
+expand_to_text_length = true
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="Join/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Conectar" type="Button" parent="Join/CenterContainer/VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+text = "Conectar"
+
+[node name="Cancelar" type="Button" parent="Join/CenterContainer/VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+text = "Cancelar"
+
 [connection signal="pressed" from="TextureRect/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="TextureRect/VBoxContainer/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="TextureRect/VBoxContainer/Salir" to="." method="_on_salir_pressed"]
+[connection signal="pressed" from="Lobby/VBoxContainer/Start" to="." method="_on_start_button_pressed"]
