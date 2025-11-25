@@ -47,14 +47,11 @@ func _ready():
 
 func _process(delta: float) -> void:
 	if not is_multiplayer_authority():
-		return 
+		return
 
-	var collisions = rayCasts.check_collisions()
+	var collisions = rayCasts.check_collisions(has_wall_pass)
 	if collisions.has(movement):
-		#return
-		if not has_wall_pass:
-			return
-
+		return
 	position += movement * delta * movement_speed
 
 func _input(event: InputEvent) -> void:
@@ -107,6 +104,8 @@ func die_sync():
 	queue_free()
 
 func show_game_over():
+	const CUSTOM_FONT = preload("res://Assets/Fonts/PressStart2P-Regular.ttf")
+	
 	var overlay = CanvasLayer.new()
 	overlay.name = "GameOverOverlay"
 	overlay.layer = 100
@@ -125,13 +124,22 @@ func show_game_over():
 	
 	if label.label_settings == null:
 		label.label_settings = LabelSettings.new()
+	
+	# Aplicada fuente retro
+	label.label_settings.font = CUSTOM_FONT
 	label.label_settings.font_size = 64
 	label.label_settings.font_color = Color.RED
 	label.label_settings.outline_size = 4
 	label.label_settings.outline_color = Color.BLACK
 	
+	# Agregado de sombra
+	label.label_settings.shadow_size = 10
+	label.label_settings.shadow_color = Color.BLACK
+	label.label_settings.shadow_offset = Vector2(4, 4)
+	
 	overlay.add_child(label)
 	get_tree().root.add_child(overlay)
+
 
 func _on_area_entered(area: Area2D) -> void:
 	if area is PowerUp:

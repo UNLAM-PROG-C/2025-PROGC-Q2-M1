@@ -20,7 +20,7 @@ var spawn_points = [
 ]
 
 func _ready():
-	# --- LÓGICA DE SERVIDOR ---
+	# Logica del servidor
 	if not multiplayer.is_server():
 		return
 
@@ -64,8 +64,49 @@ func _on_player_died():
 	check_for_winner()
 
 func remove_player(id: int):
-	if players_container.has_node(str(id)):
-		players_container.get_node(str(id)).queue_free()
+	if not players_container.has_node(str(id)):
+		return
+	
+	var player_node = players_container.get_node(str(id))
+	var player_name = ""
+	
+	# Obtener nombre antes de eliminar
+	if player_node is Bomberman:
+		player_name = player_node.animation_prefix.capitalize()
+		player_node.is_alive = false
+	
+	player_node.queue_free()
+	
+	# Mostrar mensaje a todos los jugadores
+	if player_name != "":
+		show_disconnection_message.rpc(player_name)
+	
+	# Verificar ganador después de la desconexión
+	if multiplayer.is_server():
+		await get_tree().process_frame
+		check_for_winner()
+
+# RPC para mostrar mensaje de desconexión
+@rpc("any_peer", "call_local")
+func show_disconnection_message(player_name: String):
+	var label = Label.new()
+	label.text = "%s se desconectó" % player_name
+	label.position = Vector2(10, 10)
+	
+	if label.label_settings == null:
+		label.label_settings = LabelSettings.new()
+	
+	label.label_settings.font = CUSTOM_FONT
+	label.label_settings.font_size = 16
+	label.label_settings.font_color = Color.ORANGE_RED
+	label.label_settings.outline_size = 2
+	label.label_settings.outline_color = Color.BLACK
+	
+	add_child(label)
+	
+	# Eliminar después de 3 segundos
+	await get_tree().create_timer(3.0).timeout
+	label.queue_free()
 
 func check_for_winner():
 	if not multiplayer.is_server():
@@ -93,11 +134,10 @@ func check_for_winner():
 func show_winner_rpc(winner_name: String, winner_id: int):
 	var tree = get_tree()
 
-	# Eliminar todos los overlays existentes
+	# Eliminar todos los overlays que haya
 	for child in tree.root.get_children():
-		if "Overlay" in child.name or child is CanvasLayer:
-			if child.name != "menu" and child != tree.current_scene:
-				child.queue_free()
+		if child is CanvasLayer and (child.name.contains("Overlay") or child.name == "GameOverOverlay" or child.name == "VictoryOverlay"):
+			child.queue_free()
 	
 	# Esperar a que se procese la eliminación
 	await tree.process_frame
@@ -113,8 +153,10 @@ func show_winner_rpc(winner_name: String, winner_id: int):
 	overlay.add_child(color_rect)
 	
 	var label = Label.new()
-	if multiplayer.get_unique_id() == winner_id:
-		label.text = "¡VICTORIA!\n%s Bomberman Ganó" % winner_name
+	if winner_id == 0:
+		label.text = "¡EMPATE!\nNadie ha ganado"
+	elif multiplayer.get_unique_id() == winner_id:
+		label.text = "¡VICTORIA!\n%s Bomberman ganó" % winner_name
 	else:
 		label.text = "%s Bomberman\nHA GANADO" % winner_name
 	
@@ -122,35 +164,27 @@ func show_winner_rpc(winner_name: String, winner_id: int):
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	
-	# AQUI ESTA EL CAMBIO DE ESTETICA
 	if label.label_settings == null:
 		label.label_settings = LabelSettings.new()
 	
-	# ASIGNAMOS LA FUENTE
 	label.label_settings.font = CUSTOM_FONT 
-	label.label_settings.font_size = 48 # Ajusta el tamaño
+	label.label_settings.font_size = 48
 	label.label_settings.font_color = Color.GOLD
-	
-	# SOMBRA PARA QUE SE LEA MEJOR
 	label.label_settings.shadow_size = 10
 	label.label_settings.shadow_color = Color.BLACK
 	label.label_settings.shadow_offset = Vector2(4, 4)
 	
-	
 	overlay.add_child(label)
 	tree.root.add_child(overlay)
 	
-	# Mostrar por 3 segundos
+	# Mostrar por 10 segundos
 	await tree.create_timer(10.0).timeout
-	overlay.queue_free()
 	
-	# Limpiar overlays que puedan haber quedado
+	# Limpiar todos los overlays antes de cambiar de escena
 	for child in tree.root.get_children():
-		if "Overlay" in child.name or (child is CanvasLayer and child != tree.current_scene):
+		if child is CanvasLayer:
 			child.queue_free()
 	
-	# Esperar 2 frames para asegurar limpieza completa
-	await tree.process_frame
 	await tree.process_frame
 	
 	# Cambiar de escena

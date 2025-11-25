@@ -6,6 +6,9 @@ const POWER_UP_SCENE = preload("res://Scenes/power_up.tscn")
 
 @export var power_up_res: PowerUpRes
 
+func _ready():
+	add_to_group("brick_wall")
+
 @rpc("call_local")
 func destroy():
 	animated_sprite_2d.play("destroy")

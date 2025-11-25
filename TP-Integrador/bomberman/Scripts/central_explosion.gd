@@ -56,7 +56,7 @@ func create_explosion_for_size(size: int, animation_name: String, animation_posi
 func create_explosion_animation_slice(anim_name: String, anim_position: Vector2):
 	var directional_explosion = DIRECTIONAL_EXPLOSION.instantiate()
 	
-	# Sumamos nuestra posición actual (global_position) al offset
+	# 1. Sumamos nuestra posición actual (global_position) al offset
 	directional_explosion.global_position = self.global_position + anim_position
 	
 	# 2. Asignamos el nombre

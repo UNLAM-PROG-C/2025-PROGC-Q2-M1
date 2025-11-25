@@ -10,7 +10,7 @@ class_name PowerUp
 		if is_inside_tree():
 			update_texture()
 		else:
-			# Si aun no nació, esperamos al _ready
+			# Si aun no spawneo, esperamos al _ready
 			await ready
 			update_texture()
 
