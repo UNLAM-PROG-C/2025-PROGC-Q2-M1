@@ -81,7 +81,7 @@ theme_override_constants/line_spacing = 6
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_cayip")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wwsa2")
-text = "HOST"
+text = "CREAR PARTIDA"
 
 [node name="Join" type="Button" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
@@ -91,7 +91,7 @@ theme_override_constants/icon_max_width = 6
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_158mb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_jsrd8")
-text = "JOIN"
+text = "UNIRSE"
 
 [node name="Salir" type="Button" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
