@@ -44,7 +44,7 @@ func check_raycasts_for_direction(animation_name: String, raycasts: RayCast2D, a
 		if size_of_explosion != null:
 			create_explosion_for_size(size_of_explosion, animation_name, animation_direction)
 		execute_explosion_collision(collider)
-
+		
 func create_explosion_for_size(size: int, animation_name: String, animation_position: Vector2):
 	for i in size:
 		if i < size - 1:
@@ -63,8 +63,8 @@ func create_explosion_animation_slice(anim_name: String, anim_position: Vector2)
 	directional_explosion.animation_name = anim_name 
 	
 	# 3. Agregamos al arbol (dispara el Spawner y manda los datos anteriores)
-	get_tree().current_scene.add_child(directional_explosion, true)	
-
+	get_tree().current_scene.get_node("Players").add_child(directional_explosion, true)
+	
 func calculate_size_of_explosion(raycasts: RayCast2D):
 	var collider = raycasts.get_collider()
 	if collider is TileMapLayer:
