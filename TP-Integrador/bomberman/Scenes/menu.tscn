@@ -1,14 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://dodh78nw517fx"]
+[gd_scene load_steps=9 format=3 uid="uid://dodh78nw517fx"]
 
 [ext_resource type="Texture2D" uid="uid://drmqla6gwvfp4" path="res://Resources/imagenLobby.png" id="1_1rerr"]
+[ext_resource type="Theme" uid="uid://q6xnivpdhglf" path="res://Resources/new_theme.tres" id="1_cayip"]
 [ext_resource type="Script" uid="uid://c2a0x3bhxy3cs" path="res://Scripts/menu.gd" id="1_xhh6f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cayip"]
-bg_color = Color(0.9529412, 0.14117648, 0.14117648, 1)
+content_margin_left = 5.0
+content_margin_top = 10.0
+content_margin_right = 5.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.45882353, 0, 1)
 corner_detail = 9
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwsa2"]
+content_margin_left = 5.0
+content_margin_top = 10.0
+content_margin_right = 5.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0, 0.019607844, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_158mb"]
-bg_color = Color(0.963054, 0.39809015, 0.1926758, 1)
+bg_color = Color(1, 0.45882353, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jsrd8"]
+content_margin_left = 5.0
+content_margin_top = 10.0
+content_margin_right = 5.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0, 0.019607844, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wbdvm"]
+content_margin_left = 5.0
+content_margin_top = 10.0
+content_margin_right = 5.0
+content_margin_bottom = 10.0
+bg_color = Color(1.4920532e-06, 0.58069634, 0.57066023, 1)
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -17,6 +43,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_cayip")
 script = ExtResource("1_xhh6f")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -37,31 +64,43 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -352.0
-offset_top = -33.0
+offset_top = -24.0
 offset_right = 29.0
-offset_bottom = 52.0
+offset_bottom = 164.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 19
 
 [node name="Host" type="Button" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/outline_size = 2
+theme_override_constants/outline_size = 6
 theme_override_constants/h_separation = 6
+theme_override_constants/icon_max_width = 6
+theme_override_constants/align_to_largest_stylebox = 6
+theme_override_constants/line_spacing = 6
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_cayip")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wwsa2")
 text = "HOST"
 
 [node name="Join" type="Button" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/outline_size = 6
+theme_override_constants/h_separation = 6
+theme_override_constants/icon_max_width = 6
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_158mb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_jsrd8")
 text = "JOIN"
 
 [node name="Salir" type="Button" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/outline_size = 6
+theme_override_constants/h_separation = 6
+theme_override_constants/icon_max_width = 6
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_158mb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wbdvm")
 text = "SALIR"
 
 [node name="Lobby" type="Control" parent="."]
@@ -72,8 +111,10 @@ offset_bottom = 40.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Lobby"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 370.0
+offset_top = 270.0
+offset_right = 818.0
+offset_bottom = 346.0
 
 [node name="Timer" type="Label" parent="Lobby/VBoxContainer"]
 layout_mode = 2
@@ -85,6 +126,7 @@ text = "Jugadores 1/4"
 
 [node name="Start" type="Button" parent="Lobby/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_cayip")
 disabled = true
 text = "Iniciar partida"
 
@@ -96,11 +138,14 @@ offset_bottom = 40.0
 
 [node name="CenterContainer" type="CenterContainer" parent="Join"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 420.0
+offset_top = 250.0
+offset_right = 740.0
+offset_bottom = 334.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Join/CenterContainer"]
 layout_mode = 2
+alignment = 1
 
 [node name="Join" type="Label" parent="Join/CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -113,6 +158,7 @@ expand_to_text_length = true
 
 [node name="ButtonsContainer" type="HBoxContainer" parent="Join/CenterContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 5
 
 [node name="Conectar" type="Button" parent="Join/CenterContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2

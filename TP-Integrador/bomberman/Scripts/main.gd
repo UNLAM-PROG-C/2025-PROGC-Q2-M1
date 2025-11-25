@@ -1,5 +1,7 @@
 extends Node
 
+const CUSTOM_FONT = preload("res://Assets/Fonts/PressStart2P-Regular.ttf")
+
 # El orden define quien es jugador 1, 2, 3 y 4.
 var character_scenes = [
 	preload("res://Scenes/WhiteBomberman.tscn"), # Jugador 1 (Index 0)
@@ -118,20 +120,28 @@ func show_winner_rpc(winner_name: String, winner_id: int):
 	
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.set_anchors_preset(Control.PRESET_CENTER)
+	label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	
+	# AQUI ESTA EL CAMBIO DE ESTETICA
 	if label.label_settings == null:
 		label.label_settings = LabelSettings.new()
-	label.label_settings.font_size = 72
+	
+	# ASIGNAMOS LA FUENTE
+	label.label_settings.font = CUSTOM_FONT 
+	label.label_settings.font_size = 48 # Ajusta el tamaño
 	label.label_settings.font_color = Color.GOLD
-	label.label_settings.outline_size = 6
-	label.label_settings.outline_color = Color.BLACK
+	
+	# SOMBRA PARA QUE SE LEA MEJOR
+	label.label_settings.shadow_size = 10
+	label.label_settings.shadow_color = Color.BLACK
+	label.label_settings.shadow_offset = Vector2(4, 4)
+	
 	
 	overlay.add_child(label)
 	tree.root.add_child(overlay)
 	
 	# Mostrar por 3 segundos
-	await tree.create_timer(3.0).timeout
+	await tree.create_timer(10.0).timeout
 	overlay.queue_free()
 	
 	# Limpiar overlays que puedan haber quedado
