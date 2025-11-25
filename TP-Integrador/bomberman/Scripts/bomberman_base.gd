@@ -21,6 +21,8 @@ var movement: Vector2 = Vector2.ZERO
 @export var movement_speed: float = MACRO_SPEED
 var max_bombs = MACRO_MAX_BOMBS
 
+@export var has_wall_pass: bool = false
+
 # Configuracion Multijugador
 @export_group("Configuración Jugador")
 @export var animation_prefix: String = "black" 
@@ -42,13 +44,6 @@ func _enter_tree():
 func _ready():
 	self.collision_layer = 1   
 	self.collision_mask = 64   
-	
-	# Debug
-	var label = Label.new()
-	label.text = animation_prefix
-	label.position.y = -50
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	add_child(label)
 
 func _process(delta: float) -> void:
 	if not is_multiplayer_authority():
@@ -56,7 +51,9 @@ func _process(delta: float) -> void:
 
 	var collisions = rayCasts.check_collisions()
 	if collisions.has(movement):
-		return
+		#return
+		if not has_wall_pass:
+			return
 
 	position += movement * delta * movement_speed
 

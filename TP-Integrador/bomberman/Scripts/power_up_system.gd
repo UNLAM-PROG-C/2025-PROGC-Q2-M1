@@ -27,9 +27,7 @@ func enable_power_up(power_up_type: Utils.PowerUpType):
 			speed_up_timer.start()
 			
 		Utils.PowerUpType.WALL_PASS:
-			var raycasts_nodes = get_tree().get_nodes_in_group("raycasts") as Array[RayCast2D]
-			for raycast in raycasts_nodes:
-				raycast.set_collision_mask_value(3, false)
+			player.has_wall_pass = true
 
 func _on_speed_up_timer_timeout() -> void:
 	player.movement_speed /= SPEED_MULTIPLIER
