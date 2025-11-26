@@ -1,7 +1,9 @@
 extends Node
 
 const CUSTOM_FONT = preload("res://Assets/Fonts/PressStart2P-Regular.ttf")
-
+const INIT_TILE = 16
+const END_TILE = 208
+const SERVER_ID = 1
 # El orden define quien es jugador 1, 2, 3 y 4.
 var character_scenes = [
 	preload("res://Scenes/WhiteBomberman.tscn"), # Jugador 1 (Index 0)
@@ -13,10 +15,10 @@ var character_scenes = [
 @onready var players_container = $Players
 
 var spawn_points = [
-	Vector2(16, 16),     # J1: Arriba Izquierda - OK
-	Vector2(16, 208),   # J2: Arriba Derecha - Por transform
-	Vector2(208, 16),    # J3: Abajo Izquierda - Por transform
-	Vector2(208, 208)   # J4: Abajo Derecha - OK
+	Vector2(INIT_TILE, INIT_TILE),     # J1: Arriba Izquierda - OK
+	Vector2(INIT_TILE, END_TILE),   # J2: Arriba Derecha - Por transform
+	Vector2(END_TILE, INIT_TILE),    # J3: Abajo Izquierda - Por transform
+	Vector2(END_TILE, END_TILE)   # J4: Abajo Derecha - OK
 ]
 
 func _ready():
@@ -32,8 +34,7 @@ func _ready():
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
 
-	# Crear al Host (Jugador 1)
-	add_player(1)
+	add_player(SERVER_ID)
 
 	# Crear a los que ya estén conectados
 	for peer_id in multiplayer.get_peers():

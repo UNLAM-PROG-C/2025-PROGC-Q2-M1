@@ -1,13 +1,13 @@
 extends Area2D
 
 class_name Bomberman
+# Constantes
+const MACRO_SPEED = 75
+const MACRO_MAX_BOMBS = 1
 
 # Señal para detectar muerte
 signal player_died
 
-# Constantes
-const MACRO_SPEED = 75
-const MACRO_MAX_BOMBS = 1
 var is_alive = true
 
 # Nodos Hijo
@@ -119,7 +119,7 @@ func show_game_over():
 	label.text = "GAME OVER"
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.set_anchors_preset(Control.PRESET_CENTER)
+	label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	label.pivot_offset = label.size / 2
 	
 	if label.label_settings == null:
