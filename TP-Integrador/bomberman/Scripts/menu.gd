@@ -111,6 +111,13 @@ func _on_connect_button_pressed() -> void:
 	show_waiting_screen()
 
 func _on_cancel_button_pressed() -> void:
+	# Cancelar el intento de conexión
+	if multiplayer.multiplayer_peer:
+		multiplayer.multiplayer_peer.close()
+		multiplayer.multiplayer_peer = null
+		print("Conexión cancelada")
+	
+	# Volver al menu
 	join_panel.visible = false
 	menu_panel.visible = true
 
@@ -119,7 +126,7 @@ func _on_player_connected(id: int):
 	players_connected += 1
 	update_lobby_ui()
 	
-	# Si llegamos a 4, empezar automáticamente
+	# Si llegamos a 4, empezar automaticamente
 	if players_connected >= MAX_PLAYERS:
 		start_game_for_all()
 
@@ -136,7 +143,7 @@ func show_lobby():
 	update_lobby_ui()
 
 func show_waiting_screen():
-	# Para clientes: mostrar mensaje simple
+	# Para clientes: mostrar mensaje simple con opcion de cancelar
 	menu_panel.visible = false
 	lobby_panel.visible = true
 	player_count_label.text = "Esperando al host..."
@@ -144,6 +151,39 @@ func show_waiting_screen():
 		timer_label.visible = false
 	if start_button:
 		start_button.visible = false
+		start_button.text = "Cancelar"
+		start_button.visible = true
+		start_button.disabled = false
+		
+		# Cambiar la funcion del boton para cancelar
+		if not start_button.pressed.is_connected(_on_cancel_waiting):
+			start_button.pressed.connect(_on_cancel_waiting)
+
+func _on_cancel_waiting():
+	print("Cancelando espera...")
+	
+	# Desconectar
+	if multiplayer.multiplayer_peer:
+		multiplayer.multiplayer_peer.close()
+		multiplayer.multiplayer_peer = null
+	
+	# Desconectar la señal temporal
+	if start_button and start_button.pressed.is_connected(_on_cancel_waiting):
+		start_button.pressed.disconnect(_on_cancel_waiting)
+	
+	# Restaurar boton de inicio
+	if start_button:
+		start_button.text = "Iniciar Partida"
+		start_button.visible = true
+	
+	# Volver al menu
+	lobby_panel.visible = false
+	menu_panel.visible = true
+	
+	# Resetear variables
+	waiting_for_players = false
+	players_connected = INITIAL_PLAYERS
+	lobby_timer = INITIAL_TIME
 
 func update_lobby_ui():
 	if player_count_label:

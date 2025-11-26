@@ -20,6 +20,9 @@ var spawn_points = [
 ]
 
 func _ready():
+	# Conectar señal de desconexión del servidor
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	
 	# Logica del servidor
 	if not multiplayer.is_server():
 		return
@@ -37,6 +40,10 @@ func _ready():
 		add_player(peer_id)
 
 func add_player(id: int):
+	# Solo el servidor crea jugadores
+	if not multiplayer.is_server():
+		return
+		
 	print("Generando personaje para ID: ", id)
 	
 	var index = players_container.get_child_count()
@@ -46,7 +53,7 @@ func add_player(id: int):
 	var scene_to_spawn = character_scenes[character_index]
 	var player_instance = scene_to_spawn.instantiate()
 	
-	player_instance.name = str(id)
+	player_instance.name = str(id)  # Nombre unico para cada jugador
 	player_instance.player_id = id
 	player_instance.position = spawn_points[spawn_index]
 	
@@ -190,3 +197,52 @@ func show_winner_rpc(winner_name: String, winner_id: int):
 	# Cambiar de escena
 	if tree:
 		tree.change_scene_to_file("res://Scenes/menu.tscn")
+
+func _on_server_disconnected():
+	print("El servidor se desconectó") # Debug
+	
+	# Mostrar mensaje y volver al menu
+	var tree = get_tree()
+	
+	# Limpiar overlays
+	for child in tree.root.get_children():
+		if child is CanvasLayer:
+			child.queue_free()
+	
+	await tree.process_frame
+	
+	# Crear overlay de desconexion
+	var overlay = CanvasLayer.new()
+	overlay.name = "DisconnectionOverlay"
+	overlay.layer = 100
+	
+	var color_rect = ColorRect.new()
+	color_rect.color = Color(0.3, 0.1, 0.1, 0.9)
+	color_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(color_rect)
+	
+	var label = Label.new()
+	label.text = "EL HOST SE DESCONECTÓ\nVolviendo al menú..."
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	
+	if label.label_settings == null:
+		label.label_settings = LabelSettings.new()
+	
+	label.label_settings.font = CUSTOM_FONT
+	label.label_settings.font_size = 32
+	label.label_settings.font_color = Color.WHITE
+	label.label_settings.outline_size = 3
+	label.label_settings.outline_color = Color.BLACK
+	
+	overlay.add_child(label)
+	tree.root.add_child(overlay)
+	
+	# Esperar 3 segundos y volver al menu
+	await tree.create_timer(3.0).timeout
+	
+	overlay.queue_free()
+	await tree.process_frame
+	
+	tree.change_scene_to_file("res://Scenes/menu.tscn")
