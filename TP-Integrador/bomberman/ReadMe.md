@@ -21,13 +21,13 @@ La solución permite que hasta 4 jugadores se conecten simultáneamente en una p
 
 Se implementó un modelo de **Servidor Autoritativo**:
 
-1.  **Host (Servidor):** Es la autoridad única. Gestiona el estado del mundo, valida movimientos, instancia bombas, calcula daños y decide las condiciones de victoria[cite: 14].
-2.  [cite_start]**Peers (Clientes):** Envían inputs y solicitudes (RPCs) al servidor y reciben actualizaciones de estado mediante `MultiplayerSynchronizer` y `MultiplayerSpawner`.
+1.  **Host (Servidor):** Es la autoridad única. Gestiona el estado del mundo, valida movimientos, instancia bombas, calcula daños y decide las condiciones de victoria.
+2.  **Peers (Clientes):** Envían inputs y solicitudes (RPCs) al servidor y reciben actualizaciones de estado mediante `MultiplayerSynchronizer` y `MultiplayerSpawner`.
 
 ### Requisitos del Sistema
 
 * **Sistema Operativo:** Windows 10/11, Linux o macOS.
-* **Hardware:** CPU Dual Core o superior, 4GB RAM, Gráficos integrados compatibles con OpenGL 3.3 / Vulkan[cite: 19].
+* **Hardware:** CPU Dual Core o superior, 4GB RAM, Gráficos integrados compatibles con OpenGL 3.3 / Vulkan.
 * **Red:** Conexión LAN (Ethernet o Wi-Fi) o Localhost para pruebas.
 
 ---
@@ -52,7 +52,7 @@ Desde el punto de vista de la arquitectura de computadoras, la solución impleme
 
 Dado que los procesos no comparten memoria física, la comunicación se resuelve mediante RPCs (Remote Procedure Calls) sobre el protocolo UDP (ENet).
 
-* **Solicitudes (Cliente -> Servidor):** Los clientes no modifican el estado del juego directamente. [cite_start]Envían un "mensaje" (RPC) solicitando una acción.
+* **Solicitudes (Cliente -> Servidor):** Los clientes no modifican el estado del juego directamente. Envían un "mensaje" (RPC) solicitando una acción.
 * *Ejemplo:* Cuando el Jugador 2 presiona "Poner Bomba", envía `rpc_id(1, "request_bomb_spawn")` al Servidor.
 * **Difusión (Servidor -> Clientes):** El servidor procesa los mensajes de forma secuencial en su bucle de física, garantizando la atomicidad, y luego difunde el resultado a los clientes mediante replicación.
 
@@ -73,7 +73,7 @@ Para mantener la coherencia visual entre los procesos, se utilizan dos estrategi
 Para evitar condiciones de carrera (ej: dos jugadores agarrando el mismo PowerUp), se utiliza el modelo de **Autoridad del Servidor**:
 
 * **Exclusión Mutua Implícita:** El servidor procesa los paquetes de red de manera secuencial en su hilo principal (Main Thread).
-* **Atomicidad:** La lógica de colisión ocurre solo en el Servidor. [cite_start]Si dos mensajes llegan "al mismo tiempo", el servidor procesa uno primero y elimina el objeto; cuando procese el segundo mensaje, el objeto ya no existirá, evitando estados inconsistente.
+* **Atomicidad:** La lógica de colisión ocurre solo en el Servidor. Si dos mensajes llegan "al mismo tiempo", el servidor procesa uno primero y elimina el objeto; cuando procese el segundo mensaje, el objeto ya no existirá, evitando estados inconsistente.
 
 ---
 
