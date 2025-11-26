@@ -1,5 +1,8 @@
 extends Area2D
+
 class_name PowerUp
+const POWERUP_LAYER = 64
+const POWERUP_MASK = 1
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
@@ -15,8 +18,8 @@ class_name PowerUp
 			update_texture()
 
 func _ready():
-	self.collision_layer = 64
-	self.collision_mask = 1
+	self.collision_layer = POWERUP_LAYER
+	self.collision_mask = POWERUP_MASK
 	update_texture()
 
 func update_texture():

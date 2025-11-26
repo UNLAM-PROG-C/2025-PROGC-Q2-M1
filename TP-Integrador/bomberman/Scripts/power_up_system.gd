@@ -23,7 +23,7 @@ func enable_power_up(power_up_type: Utils.PowerUpType):
 			
 		Utils.PowerUpType.SPEED_UP:
 			player.movement_speed *= SPEED_MULTIPLIER
-			animated_sprite_2d.speed_scale = 2
+			animated_sprite_2d.speed_scale = SPEED_MULTIPLIER
 			speed_up_timer.start()
 			
 		Utils.PowerUpType.WALL_PASS:

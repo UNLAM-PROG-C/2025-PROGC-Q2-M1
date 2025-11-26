@@ -247,6 +247,7 @@ texture = ExtResource("1_jjgbg")
 6:7/0 = 0
 4:5/0 = 0
 3:4/0 = 0
+6:9/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_8gbba"]
 physics_layer_0/collision_layer = 2

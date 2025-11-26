@@ -1,6 +1,11 @@
 extends Control
 
 const PORT = 7000
+const INITIAL_TIME = 60.0
+const FINISH_TIME = 0
+const INITIAL_PLAYERS = 0
+const MINIMUN_PLAYERS = 2
+const MAX_PLAYERS = 4
 
 # Referencias a la UI
 @onready var menu_panel = $TextureRect
@@ -13,8 +18,8 @@ const PORT = 7000
 @onready var connect_button = $Join/CenterContainer/VBoxContainer/ButtonsContainer/Conectar
 @onready var cancel_button = $Join/CenterContainer/VBoxContainer/ButtonsContainer/Cancelar
 
-var players_connected = 0
-var lobby_timer = 60.0
+var players_connected = INITIAL_PLAYERS
+var lobby_timer = INITIAL_TIME
 var waiting_for_players = false
 
 func _ready():
@@ -30,8 +35,8 @@ func _ready():
 		multiplayer.peer_disconnected.disconnect(_on_player_disconnected)
 	
 	# Resetear variables
-	players_connected = 0
-	lobby_timer = 60.0
+	players_connected = INITIAL_PLAYERS
+	lobby_timer = INITIAL_TIME
 	waiting_for_players = false
 	
 	# UI inicial
@@ -115,7 +120,7 @@ func _on_player_connected(id: int):
 	update_lobby_ui()
 	
 	# Si llegamos a 4, empezar automáticamente
-	if players_connected >= 4:
+	if players_connected >= MAX_PLAYERS:
 		start_game_for_all()
 
 func _on_player_disconnected(id: int):
@@ -148,7 +153,7 @@ func update_lobby_ui():
 		timer_label.text = "Tiempo restante: %d segundos" % int(lobby_timer)
 	
 	if start_button:
-		start_button.disabled = players_connected < 2
+		start_button.disabled = players_connected < MINIMUN_PLAYERS
 
 func _process(delta):
 	if not waiting_for_players:
@@ -156,9 +161,9 @@ func _process(delta):
 	
 	lobby_timer -= delta
 	
-	if lobby_timer <= 0:
+	if lobby_timer <= FINISH_TIME:
 		# Si solo está el host, volver al menú
-		if players_connected < 2:
+		if players_connected < MINIMUN_PLAYERS:
 			print("Tiempo agotado. No se unieron jugadores. Volviendo al menú...")
 			reset_lobby()
 			return
@@ -166,14 +171,14 @@ func _process(delta):
 		# Si hay 2 o mas jugadores, iniciar partida
 		if multiplayer.is_server():
 			start_game_for_all()
-		lobby_timer = 60.0
+		lobby_timer = INITIAL_TIME
 	
 	update_lobby_ui()
 
 func reset_lobby():
 	waiting_for_players = false
-	lobby_timer = 60.0
-	players_connected = 0
+	lobby_timer = INITIAL_TIME
+	players_connected = INITIAL_PLAYERS
 	
 	# Desconectar peer
 	if multiplayer.multiplayer_peer:
@@ -190,7 +195,7 @@ func reset_lobby():
 
 func _on_start_button_pressed():
 	# Solo el host inicia el juego
-	if multiplayer.is_server() and players_connected >= 2:
+	if multiplayer.is_server() and players_connected >= MINIMUN_PLAYERS:
 		start_game_for_all()
 
 func start_game_for_all():
