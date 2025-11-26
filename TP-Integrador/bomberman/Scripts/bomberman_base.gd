@@ -45,7 +45,7 @@ func _ready():
 	self.collision_layer = 1   
 	self.collision_mask = 64   
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://orb7g7ab3ir6" path="res://Scripts/main.gd" id="1_344ge"]
 [ext_resource type="Texture2D" uid="uid://bv3od7dxw6lut" path="res://Assets/Sprites.png" id="1_jjgbg"]
-[ext_resource type="Script" uid="uid://c5ch1pe6sfd58" path="res://Scripts/camera_follow.gd" id="3_8gbba"]
 [ext_resource type="Resource" uid="uid://dsvk1f21dlm3r" path="res://Resources/speed_up.tres" id="5_6iyac"]
 [ext_resource type="Resource" uid="uid://deimjmm4rvl7o" path="res://Resources/bomb_up.tres" id="6_fdnlq"]
 [ext_resource type="PackedScene" uid="uid://du3o4lcd7fqfw" path="res://Scenes/brick_wall.tscn" id="7_6bp64"]
@@ -245,10 +244,27 @@ texture = ExtResource("1_jjgbg")
 9:10/0 = 0
 6:8/0 = 0
 5:9/0 = 0
+6:7/0 = 0
+4:5/0 = 0
+3:4/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_8gbba"]
 physics_layer_0/collision_layer = 2
 sources/0 = SubResource("TileSetAtlasSource_bo1nx")
+
+[sub_resource type="GDScript" id="GDScript_hptm8"]
+script/source = "extends Camera2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
 
 [node name="main" type="Node"]
 script = ExtResource("1_344ge")
@@ -262,7 +278,7 @@ tile_set = SubResource("TileSet_8gbba")
 position = Vector2(112, 112)
 scale = Vector2(10, 10)
 zoom = Vector2(2.5, 2.5)
-script = ExtResource("3_8gbba")
+script = SubResource("GDScript_hptm8")
 
 [node name="BrickWall" type="Node" parent="."]
 
