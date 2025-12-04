@@ -142,6 +142,9 @@ func show_game_over():
 
 
 func _on_area_entered(area: Area2D) -> void:
+	#if not multiplayer.is_server():
+		#return
+	
 	if area is PowerUp:
 		power_up_system.enable_power_up((area as PowerUp).type)
 		area.queue_free()

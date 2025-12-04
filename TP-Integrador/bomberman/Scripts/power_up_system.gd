@@ -28,6 +28,25 @@ func enable_power_up(power_up_type: Utils.PowerUpType):
 			
 		Utils.PowerUpType.WALL_PASS:
 			player.has_wall_pass = true
+		
+		Utils.PowerUpType.MYSTERY:
+			var posibles_premios = [
+				Utils.PowerUpType.BOMB_UP, #Indice 0
+				Utils.PowerUpType.FIRE_UP,
+				Utils.PowerUpType.SPEED_UP,
+				Utils.PowerUpType.WALL_PASS
+			]
+			#randi(), me da un numero aleatorio
+			var azar = randi() % (posibles_premios.size() + 1)
+			
+			if(azar == posibles_premios.size()):
+				print("Muerte")
+				player.die()
+			else:
+				print("Obtuviste el power up: ", Utils.PowerUpType.keys()[azar])
+				#Aplicamos recursividad
+				enable_power_up(posibles_premios[azar])
+				
 
 func _on_speed_up_timer_timeout() -> void:
 	player.movement_speed /= SPEED_MULTIPLIER

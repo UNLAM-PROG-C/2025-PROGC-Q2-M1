@@ -75,10 +75,11 @@ func remove_player(id: int):
 	if not players_container.has_node(str(id)):
 		return
 	
+	#momento en el loby
 	var player_node = players_container.get_node(str(id))
 	var player_name = ""
 	
-	# Obtener nombre antes de eliminar
+	# Obtener nombre antes de eliminar. Cuando estas en partida
 	if player_node is Bomberman:
 		player_name = player_node.animation_prefix.capitalize()
 		player_node.is_alive = false

@@ -6,5 +6,6 @@ enum PowerUpType {
 	BOMB_UP,
 	FIRE_UP,
 	SPEED_UP,
-	WALL_PASS	
+	WALL_PASS,
+	MYSTERY
 }

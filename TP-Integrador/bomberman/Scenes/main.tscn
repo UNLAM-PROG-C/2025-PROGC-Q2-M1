@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://bcbmt8fwybkoi"]
+[gd_scene load_steps=12 format=4 uid="uid://bcbmt8fwybkoi"]
 
 [ext_resource type="Script" uid="uid://orb7g7ab3ir6" path="res://Scripts/main.gd" id="1_344ge"]
 [ext_resource type="Texture2D" uid="uid://bv3od7dxw6lut" path="res://Assets/Sprites.png" id="1_jjgbg"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://du3o4lcd7fqfw" path="res://Scenes/brick_wall.tscn" id="7_6bp64"]
 [ext_resource type="Resource" uid="uid://d2w8jmyk5vucx" path="res://Resources/fire_up.tres" id="7_d1ilt"]
 [ext_resource type="Resource" uid="uid://bef8ylbfytqrc" path="res://Resources/wall_pass.tres" id="7_jkdf5"]
+[ext_resource type="Resource" uid="uid://j3cqbgkoh1ka" path="res://Resources/mystery.tres" id="8_344ge"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bo1nx"]
 texture = ExtResource("1_jjgbg")
@@ -365,6 +366,7 @@ position = Vector2(80, 144)
 
 [node name="BrickWall25" parent="BrickWall" instance=ExtResource("7_6bp64")]
 position = Vector2(208, 176)
+power_up_res = ExtResource("8_344ge")
 
 [node name="BrickWall26" parent="BrickWall" instance=ExtResource("7_6bp64")]
 position = Vector2(192, 176)
@@ -389,6 +391,7 @@ position = Vector2(48, 176)
 
 [node name="BrickWall34" parent="BrickWall" instance=ExtResource("7_6bp64")]
 position = Vector2(48, 208)
+power_up_res = ExtResource("8_344ge")
 
 [node name="BrickWall35" parent="BrickWall" instance=ExtResource("7_6bp64")]
 position = Vector2(64, 208)
@@ -419,6 +422,7 @@ position = Vector2(32, 80)
 
 [node name="BrickWall44" parent="BrickWall" instance=ExtResource("7_6bp64")]
 position = Vector2(16, 48)
+power_up_res = ExtResource("8_344ge")
 
 [node name="BrickWall45" parent="BrickWall" instance=ExtResource("7_6bp64")]
 position = Vector2(16, 64)
@@ -431,12 +435,14 @@ position = Vector2(176, 32)
 
 [node name="BrickWall48" parent="BrickWall" instance=ExtResource("7_6bp64")]
 position = Vector2(176, 16)
+power_up_res = ExtResource("8_344ge")
 
 [node name="BrickWall49" parent="BrickWall" instance=ExtResource("7_6bp64")]
 position = Vector2(192, 48)
 
 [node name="BrickWall50" parent="BrickWall" instance=ExtResource("7_6bp64")]
 position = Vector2(208, 64)
+power_up_res = ExtResource("8_344ge")
 
 [node name="BrickWall55" parent="BrickWall" instance=ExtResource("7_6bp64")]
 position = Vector2(16, 80)

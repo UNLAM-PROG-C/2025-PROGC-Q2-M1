@@ -62,7 +62,7 @@ func request_bomb_spawn(pos_solicitada: Vector2, player_id: int):
 	
 	print("Bomba creada: ", bomb.name, " en posición ", bomb_position)
 	
-	# Incrementar contador del jugador que puso la bomba
+	# Tengo una bomba activa en el mapa.
 	bomb_system.bomb_placed += 1
 	
 	# Notificar al cliente para que actualice su contador

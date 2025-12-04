@@ -49,7 +49,12 @@ func check_direction_collision(raycasts: Array[RayCast2D], has_wall_pass: bool) 
 			var collider = raycast.get_collider()
 			
 			# Si tiene wall_pass, solo ignora brick_wall
-			if has_wall_pass and collider.is_in_group("brick_wall"):
+			# Agregamos "collider != null" para evitar crasheos por condicioones de carrera.
+			# A veces, el RayCast detecta una colisión (is_colliding = true),
+			# pero la pared fue eliminado por una explosión en este mismo frame (momento).
+			# Al intentar acceder a un objeto que ya no existe, el juego se rompe.
+			# Esta línea asegura que el objeto sea válido antes de tocarlo.
+			if collider and has_wall_pass and collider.is_in_group("brick_wall"):
 				continue
 			
 			# Cualquier otra colisión detiene el movimiento

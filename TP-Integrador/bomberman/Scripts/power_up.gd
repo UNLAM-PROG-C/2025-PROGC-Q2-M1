@@ -29,12 +29,14 @@ func update_texture():
 		Utils.PowerUpType.FIRE_UP: texture_path = "res://Assets/PowerUpFireUp.png"
 		Utils.PowerUpType.SPEED_UP: texture_path = "res://Assets/PowerUpSpeedUp.png"
 		Utils.PowerUpType.WALL_PASS: texture_path = "res://Assets/PowerUpWallPass.png"
+		Utils.PowerUpType.MYSTERY: texture_path = "res://Assets/PowerUpMystery.png"
 	
 	if texture_path != "" and sprite_2d:
 		sprite_2d.texture = load(texture_path)
 
-func _on_body_entered(body: Node2D) -> void:
-	if body is Bomberman:
-		# Pasar el 'type' al sistema del jugador
-		body.power_up_system.enable_power_up(type)
-		queue_free()
+#func _on_body_entered(body: Node2D) -> void:
+	#if body is Bomberman:
+		### Pasar el 'type' al sistema del jugador
+		#body.power_up_system.enable_power_up(type)
+		#queue_free()
+		

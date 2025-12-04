@@ -40,6 +40,7 @@ func check_raycasts_for_direction(animation_name: String, raycasts: RayCast2D, a
 		create_explosion_for_size(size, animation_name, animation_direction)
 	else:
 		var size_of_explosion = calculate_size_of_explosion(raycasts)
+		#Esta linea me difine contra que choque
 		var collider = raycasts.get_collider()
 		if size_of_explosion != null:
 			create_explosion_for_size(size_of_explosion, animation_name, animation_direction)
@@ -80,6 +81,9 @@ func execute_explosion_collision(collider: Object):
 func _on_animated_sprite_2d_animation_finished() -> void:
 	queue_free()
 
+#Godot envía la señal por detras, cuandos dos nodos del tipos Area2D se tocan
+#Es por eso que es del tipo _on_area_entered
+#Este tipo de función son callback de señales. Nosotros la escribimos nomas y la conectamos.
 func _on_area_entered(area: Area2D) -> void:
 	if area is Bomberman:
 		if multiplayer.is_server():
